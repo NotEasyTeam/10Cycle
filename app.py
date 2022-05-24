@@ -73,7 +73,6 @@ def go_login():
 
 @app.route('/signup')
 def go_sign_up():
-
     return render_template('signup.html')
 
 @app.route('/uploadedmain')
