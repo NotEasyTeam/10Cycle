@@ -8,16 +8,19 @@ from datetime import datetime, timedelta
 from flask import Flask, abort, jsonify, redirect, request, render_template, url_for
 from flask_cors import CORS
 from pymongo import MongoClient
+from urllib.parse import parse_qsl
+from pprint import pprint
+import requests
 
 
 SECRET_KEY = 'recycle'
-KAKAO_REDIRECT_URI = 'http://localhost:5000/redirect'
+KAKAO_REDIRECT_URI = 'http://127.0.0.1:5000/redirect'
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 cors = CORS(app, resources={r'*': {'origins': '*'}})
 client = MongoClient('localhost', 27017)
 db = client.tencycle
-client_id = 'eb06aead9054aed0b2c737734a97ace8'
+client_id = 'd03317eabc78cb691cfc7a028d417342'
 
 
 
@@ -66,7 +69,7 @@ def go_main():
 @app.route('/login')
 def go_login():
     msg = request.args.get("msg")
-    return render_template('login.html', msg=msg)
+    return render_template('login.html', ID=client_id, URI=KAKAO_REDIRECT_URI, msg=msg)
 
 @app.route('/signup')
 def go_sign_up():
@@ -75,6 +78,10 @@ def go_sign_up():
 @app.route('/uploadedmain')
 def go_uploaded_main():
     return render_template('uploaded_mainpage.html')
+
+@app.route('/kakao_login')
+def Kakao_log():
+    return render_template('kakao_login.html')
 
 
 @app.route("/api/signup", methods=["POST"])
@@ -124,20 +131,80 @@ def login():
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
+@app.route('/redirect')
+def kakao_redirect():
+    # code 가져 오기
+    qs = dict(parse_qsl(request.query_string))
+    code = qs.get(b'code').decode('utf-8')
 
-@app.route("/kakaologin", methods=["POST"])
-def kakao_Login():
-    data = json.loads(request.data)
-
-    doc = {
-        'username': data.get('username'),
-        'userid': data.get('userid'),
-        'userpoint': '0'
+    # 토큰요청
+    url = 'https://kauth.kakao.com/oauth/token'
+    body = {
+        "grant_type": "authorization_code",
+        "client_id": client_id,
+        "redirect_uri": KAKAO_REDIRECT_URI,
+        "code": code
     }
+    token_header = {'Content-Type': 'application/x-www-form-urlencoded;charset=urf-8'}
+    req = requests.post(url=url, headers=token_header, data=body).json()
+    pprint(req)
+    # 사용자 정보
+    url = 'https://kapi.kakao.com/v2/user/me'
+    info_header = {'Authorization': f'Bearer {req["access_token"]}',
+                   'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+    user_info = requests.post(url, headers=info_header).json()
+    print(user_info)
+    kakao_account = user_info.get('kakao_account')
+    email = kakao_account.get('email')
+    user_id = user_info.get('id')
+    prop = user_info.get('properties')
+    nickname = "Guest"
+    if prop:
+        nickname = prop.get('nickname')
+        profile = prop.get("thumbnail_image")
+        print(nickname, profile)
+    user = {
+        'providerId': user_id,
+        'nick': nickname,
+        'provider': 'kakao',
+        'age': kakao_account.get('age_range')
+    }
+    print(user)
+    # db에 저장
+    db.users.update({'email': email},
+                   {"$set": user}, upsert=True)
+    # jwt 토큰 발급
+    payload = {
+        'id': user_id,
+        'nick': nickname,
+        'exp': datetime.utcnow() + timedelta(days=3)
+    }
+    token = jwt.encode(payload=payload, key=SECRET_KEY, algorithm='HS256')
+    # kakaoLogin 리다이렉트
+    return redirect(url_for("kakao_login",
+                            token=token, providerId=user_id, email=email, nickname=nickname))
 
-    db.users.update_one({"userid": data.get('userid')}, {"$set": doc}, upsert=True)
-
-    return jsonify({'result': 'success', 'msg': '회원가입이 완료되었습니다.'})
+# @app.route("/kakaologin", methods=["POST"])
+# def kakao_Login():
+#     data = json.loads(request.data)
+#
+#     doc = {
+#         'username': data.get('username'),
+#         'userid': data.get('userid'),
+#         'userpoint': '0'
+#     }
+#
+#     db.users.update_one({"userid": data.get('userid')}, {"$set": doc}, upsert=True)
+#
+#     payload = {
+#         'id': data.get('userid'),
+#         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
+#     }
+#     token = jwt.encode(payload=payload, key=SECRET_KEY, algorithm='HS256')
+#     print(token)
+#     print(payload)
+#
+#     return redirect(url_for("Kakao_log", token=token))
 
 
 @app.route("/getuserinfo", methods=["GET"])

@@ -93,44 +93,47 @@ async function handleSignup() {
         return;
     }
 }
-// Kakao.init('ff16324da325a78de3968519e1701949'); //발급받은 키 중 javascript키를 사용해준다.
 
-//카카오 로그인 함수
-// window.Kakao.init('ff16324da325a78de3968519e1701949');
+//  //발급받은 키 중 javascript키를 사용해준다.
+//
+// // 카카오 로그인 함수
+//
 // // console.log(Kakao.isInitialized()); // sdk초기화여부판단
-
+//
 // function kakaoLogin() {
 //     window.Kakao.Auth.login({
 //         scope: 'profile_nickname', //동의항목 페이지에 있는 개인정보 보호 테이블의 활성화된 ID값을 넣습니다.
 //         success: function (response) {
-//             localStorage.setItem('token',response['access_token']) // 로그인 성공시 발급받은 토큰
-            
-//             window.Kakao.API.request({ // 사용자 정보 가져오기 
+//             localStorage.setItem('mytoken',response['access_token']) // 로그인 성공시 발급받은 토큰
+//             console.log(response)
+//             window.Kakao.API.request({  // 사용자 정보 가져오기
 //                 url: '/v2/user/me',
 //                 success: (res) => {
-//                     // console.log(res['id'])
+//                     console.log(res)
 //                     const kakao_account = res.kakao_account;
 //                     // console.log(kakao_account.profile["nickname"])
 //                     const kakaoUserData = {
 //                         "userid": res['id'],
 //                         "username": kakao_account.profile["nickname"],
 //                     }
-//                     // console.log(kakaoUserData)
-//                     const response = fetch(`${backend_base_url}/kakaologin`, {
+//                     console.log(kakaoUserData)
+//                     const response = fetch('/kakaologin', {
 //                         method: 'POST',
 //                         body: JSON.stringify(kakaoUserData)
 //                     }
 //                     )
 //                     console.log(response)
-//                     window.location.replace(`${frontend_base_url}/mainpage.html`);
-                    
+//                     // localStorage.setItem('token', response['token'])
+//                     // $.cookie('mytoken', response['token'], {path: '/'});
+//                     window.location.replace('/main');
+//
 //                 }
 //             });
 //         },
 //         fail: function (error) {
 //             console.log(error);
 //         }
-        
+//
 //     });
 // }
 
@@ -145,62 +148,67 @@ async function handleSignup() {
 //         success: function (response) {
 //             if (response['result'] == 'success') {
 //                 alert('로그인 성공!')
-//                 window.location.replace(`${frontend_base_url}/mainpage.html`);
+//                 window.location.replace('/main');
 //             }
 //         }
 //     })
 // }
+Kakao.init('ff16324da325a78de3968519e1701949');
+let kakao = "https://kauth.kakao.com/oauth/authorize"
+window.onload = ()=> {
+    document.getElementById("K-auth").href=`${kakao}?client_id=d03317eabc78cb691cfc7a028d417342&redirect_uri=http://127.0.0.1:5000/redirect&response_type=code`
+}
+    //로그인 함수
+    async function handleLogin() {
+        const loginData = {
+            userid: document.getElementById("userid").value,
+            password: document.getElementById("userpw").value
+        }
 
-//로그인 함수
-async function handleLogin() {
-    const loginData = {
-        userid: document.getElementById("userid").value,
-        password: document.getElementById("userpw").value
+        const response = await fetch('/api/login', {
+                method: 'POST',
+                body: JSON.stringify(loginData)
+            }
+        )
+        response_json = await response.json()
+
+        localStorage.setItem("token", response_json.token)
+
+        if (response_json["result"] == "success") {
+            $.cookie('mytoken', response_json.token, {path: '/'});
+            window.location.replace('/main');
+        } else {
+            alert(response_json["msg"])
+            $('#userid').focus()
+            return;
+        }
     }
 
-    const response = await fetch('/api/login', {
-        method: 'POST',
-        body: JSON.stringify(loginData)
-    }
-    )
-    response_json = await response.json()
-
-    localStorage.setItem("token", response_json.token)
-
-    if (response_json["result"] == "success") {
-        $.cookie('mytoken', response_json.token, {path: '/'});
-        window.location.replace('/main');
-    } else {
-        alert(response_json["msg"])
-        $('#userid').focus()
-        return;
+//카카오로그아웃
+function kakaoout() {
+    if (Kakao.Auth.getAccessToken()) {
+        Kakao.API.request({
+            url: '/v1/user/unlink',
+            success: function (response) {
+                console.log(response)
+                alert("카카오로그아웃")
+            },
+            fail: function (error) {
+                console.log(error)
+            },
+        })
+        Kakao.Auth.setAccessToken(undefined)
     }
 }
-
-// //카카오로그아웃  
-// function kakaoout() {
-//     if (Kakao.Auth.getAccessToken()) {
-//         Kakao.API.request({
-//             url: '/v1/user/unlink',
-//             success: function (response) {
-//                 console.log(response)
-//             },
-//             fail: function (error) {
-//                 console.log(error)
-//             },
-//         })
-//         Kakao.Auth.setAccessToken(undefined)
-//     }
-// }
-// function kakaoLogout() {
-//     if (!Kakao.Auth.getAccessToken()) {
-//       alert('Not logged in.')
-//       return
-//     }
-//     Kakao.Auth.logout(function() {
-//       alert('logout ok\naccess token -> ' + Kakao.Auth.getAccessToken())
-//     })
-//   }
+function kakaoLogout() {
+    if (!Kakao.Auth.getAccessToken()) {
+      alert('Not logged in.')
+      return
+    }
+    Kakao.Auth.logout(function() {
+      alert('logout ok\naccess token -> ' + Kakao.Auth.getAccessToken())
+    })
+  }
 
 
 function logout() {

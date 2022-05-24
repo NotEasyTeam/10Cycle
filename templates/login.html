@@ -50,11 +50,12 @@
                     로그인
                 </button>
                 <div class="kakao-login">
-                    <button style="border: none; background-color: white;" >
-                        <img style="transform: scale(0.84);" src="../static/image/kakao_login_medium_narrow.png" onclick="kakaoLogin();" href="javascript:void(0)">    
-                    </button>
+                    <a id="K-auth" class="button is-warning">
+                        카카오로그인</a>
+<!--                    <img style="transform: scale(0.84);" src="../static/image/kakao_login_medium_narrow.png"  href="javascript:void(0)">    -->
+
                 </div>
-                
+                <button type="button" onclick="kakaoout()">카카오로그아웃</button>
                 <div class="ask-sign"> 계정이 없으신가요? <a class="go-to-login" href="/signup">회원가입</a></div>
             </div>
         </div>
