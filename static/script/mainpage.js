@@ -17,4 +17,6 @@ async function checkLogin() {
         loginoutButton.setAttribute("onclick", "location.href='/login'")
     }
 }
+
+getRecycleinfo();
 checkLogin();

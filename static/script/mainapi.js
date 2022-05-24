@@ -6,7 +6,6 @@ function uploadRecycle() {
     let image = $('#chooseFile')[0].files[0]
     let form_data = new FormData()
 
-    console.log(today, image)
     form_data.append("image_give", image)
     form_data.append("date_give", today)
 
@@ -20,8 +19,7 @@ function uploadRecycle() {
         headers: { 'Authorization': localStorage.getItem("token") },
         success: function (response) {
             alert(response['msg'])
-            console.log(response['msg'])
-            window.location.replace('/uploadedmain');
+            window.location.assign('/uploadedmain');
         }
     })
 }
@@ -34,7 +32,6 @@ function getUserRecycle() {
         headers: { 'Authorization': localStorage.getItem("token") }, // 401에러 떴을때, 헤더에 토큰 
         success: function (response) {
             let image = response['img']
-            console.log(image)
 
             let temp_html = `<img class="uploaded-img" src="../static/image/${image}">` //경로문제 해결해야 모든 사진이 불러와진다
             $('#uploaded-image-box').append(temp_html)

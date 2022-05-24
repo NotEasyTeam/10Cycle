@@ -42,7 +42,7 @@ def authorize(f):
 def home():
 
     # 현재 이용자의 컴퓨터에 저장된 헤더 에서 mytoken 을 가져옵니다.
-    token_receive = request.cookies.get('token')
+    token_receive = request.cookies.get('mytoken')
     try:
         # 암호화되어있는 token의 값을 우리가 사용할 수 있도록 디코딩(암호화 풀기)해줍니다!
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -148,12 +148,11 @@ def get_user_info(user):
     })
 
     point = str(len(list(db.recycles.find({'userid': result["userid"]}, {'_id': False}))))
-    point = ('{0:,}'.format(point))
 
     doc = {
         'username': result["username"],
         'userid': result["userid"],
-        'userpoint': str(point)
+        'userpoint': point
     }
     db.users.update_one({'userid': result["userid"]}, {"$set": doc}, upsert=True)
 
