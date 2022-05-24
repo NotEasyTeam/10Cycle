@@ -42,6 +42,24 @@ function getUserRecycle() {
     })
 };
 
+function getUserRecycle() {
+    $.ajax({
+        type: 'GET',
+        url: '/gethowtorecycle',
+        data: {},
+        headers: { 'Authorization': localStorage.getItem("token") }, // 401에러 떴을때, 헤더에 토큰
+        success: function (response) {
+            let category = response['category']
+            let how_to_recycle = response['how_to_recycle']
+
+            let temp_html = `${category} 입니다<br><br><ul class="manual"><li>${how_to_recycle[0]}</li><li>${how_to_recycle[1]}</li></ul><button class="load-image" data-toggle="modal" data-target="#upload_image_modal" onclick="">
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i> 다른 사진
+                </button>`
+            $('#result').append(temp_html)
+        }
+    })
+};
+
 
 
 

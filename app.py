@@ -155,8 +155,15 @@ def get_user_info(user):
         '_id': ObjectId(user["id"])
     })
 
-    point = len(list(db.recycles.find({'userid': result["userid"]}, {'_id': False})))
-    db.users.update_one({'userid': result["userid"]}, {"point": point})
+    point = str(len(list(db.recycles.find({'userid': result["userid"]}, {'_id': False}))))
+    point = ('{0:,}'.format(point))
+
+    doc = {
+        'username': result["username"],
+        'userid': result["userid"],
+        'userpoint': str(point)
+    }
+    db.users.update_one({'userid': result["userid"]}, {"$set": doc}, upsert=True)
     
     print(result)
 
@@ -209,6 +216,32 @@ def get_image(user):
     uploadimage = image[0]['image']
 
     return jsonify({'img': uploadimage})
+
+
+@app.route("/gethowtorecycle", methods=["GET"])
+@authorize
+def get_image(user):
+    user_info = db.users.find_one({
+        '_id': ObjectId(user["id"])
+    })
+    print(user_info)
+    image = list(db.recycles.find({'userid': user_info["userid"]}, {'_id': False}).sort("date", -1).limit(1))
+    uploadimage_category = image[0]['category']
+    message=[]
+    if uploadimage_category=="paper":
+        message.append("스티커와 같은 이물질을 제거해주세요")
+        message.append("납작하게 접어주세요")
+    elif uploadimage_category=="metal":
+        message.append("안의 이물질을 제거해주세요")
+        message.append("최대한 압축시켜주세요")
+    elif uploadimage_category=="plastic":
+        message.append("부착 상표 및 뚜껑을 제거해주세요")
+        message.append("최대한 압축시켜주세요")
+    elif uploadimage_category=="glass":
+        message.append("안의 이물질을 제거해주세요")
+        message.append("뚜껑을 제거해주세요")
+
+    return jsonify({'category': uploadimage_category, 'how_to_recycle': message})
 
 
 @app.route("/getuserpaper", methods=["GET"])
