@@ -96,6 +96,19 @@ body {
     font-size: 20px;
 }
 
+#uploaded-image-box {
+    width: 45%;
+    height: 80%;
+    margin-right: 7%;
+    border: 2px solid black;
+    overflow: hidden;
+}
+
+#uploaded-image-box .uploaded-img {
+    width: 100%;
+    height: 100%;
+}
+
 .result .load-image {
     margin-top: 20%;
     font-size: 20px;
