@@ -156,8 +156,15 @@ def get_user_info(user):
         '_id': ObjectId(user["id"])
     })
 
-    point = len(list(db.recycles.find({'userid': result["userid"]}, {'_id': False})))
-    db.users.update_one({'userid': result["userid"]}, {"point": point})
+    point = str(len(list(db.recycles.find({'userid': result["userid"]}, {'_id': False}))))
+    point = ('{0:,}'.format(point))
+
+    doc = {
+        'username': result["username"],
+        'userid': result["userid"],
+        'userpoint': str(point)
+    }
+    db.users.update_one({'userid': result["userid"]}, {"$set": doc}, upsert=True)
     
     print(result)
 
