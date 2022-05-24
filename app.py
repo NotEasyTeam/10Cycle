@@ -219,6 +219,32 @@ def get_image(user):
     return jsonify({'img': uploadimage})
 
 
+@app.route("/gethowtorecycle", methods=["GET"])
+@authorize
+def get_image(user):
+    user_info = db.users.find_one({
+        '_id': ObjectId(user["id"])
+    })
+    print(user_info)
+    image = list(db.recycles.find({'userid': user_info["userid"]}, {'_id': False}).sort("date", -1).limit(1))
+    uploadimage_category = image[0]['category']
+    message=[]
+    if uploadimage_category=="paper":
+        message.append("스티커와 같은 이물질을 제거해주세요")
+        message.append("납작하게 접어주세요")
+    elif uploadimage_category=="metal":
+        message.append("안의 이물질을 제거해주세요")
+        message.append("최대한 압축시켜주세요")
+    elif uploadimage_category=="plastic":
+        message.append("부착 상표 및 뚜껑을 제거해주세요")
+        message.append("최대한 압축시켜주세요")
+    elif uploadimage_category=="glass":
+        message.append("안의 이물질을 제거해주세요")
+        message.append("뚜껑을 제거해주세요")
+
+    return jsonify({'category': uploadimage_category, 'how_to_recycle': message})
+
+
 @app.route("/getuserpaper", methods=["GET"])
 @authorize
 def get_user_paper(user):
