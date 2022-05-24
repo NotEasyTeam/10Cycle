@@ -1,8 +1,6 @@
 from functools import wraps
 import hashlib
 import json
-from re import S
-from urllib.parse import parse_qsl
 from load_model import predict
 from bson import ObjectId
 import jwt
@@ -10,7 +8,7 @@ from datetime import datetime, timedelta
 from flask import Flask, abort, jsonify, redirect, request, render_template, url_for
 from flask_cors import CORS
 from pymongo import MongoClient
-import requests
+
 
 SECRET_KEY = 'recycle'
 KAKAO_REDIRECT_URI = 'http://localhost:5000/redirect'
@@ -20,8 +18,7 @@ cors = CORS(app, resources={r'*': {'origins': '*'}})
 client = MongoClient('localhost', 27017)
 db = client.tencycle
 client_id = 'eb06aead9054aed0b2c737734a97ace8'
-# headers = {
-#     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+
 
 
 # 데코레이터 유저정보 불러오는 함수
@@ -83,10 +80,8 @@ def go_uploaded_main():
 @app.route("/api/signup", methods=["POST"])
 def sign_up():
     data = json.loads(request.data)
-
     password_hash = hashlib.sha256(data['password'].encode('utf-8')).hexdigest()
     user_exists = bool(db.users.find_one({"userid": data.get('userid')}))
-
 
     if user_exists == True:
         return jsonify({'result': 'fail', 'msg': '같은 아이디의 유저가 존재합니다.'})
@@ -106,8 +101,6 @@ def sign_up():
 @app.route("/api/login", methods=["POST"])
 def login():
     data = json.loads(request.data)
-    print(data)
-
     userid = data.get("userid")
     password = data.get("password")
 
@@ -135,7 +128,6 @@ def login():
 @app.route("/kakaologin", methods=["POST"])
 def kakao_Login():
     data = json.loads(request.data)
-    print(data)
 
     doc = {
         'username': data.get('username'),
@@ -164,8 +156,6 @@ def get_user_info(user):
         'userpoint': str(point)
     }
     db.users.update_one({'userid': result["userid"]}, {"$set": doc}, upsert=True)
-    
-    print(result)
 
     return jsonify({"msg": "success", "name": result["username"], "point": result["userpoint"]})
 
@@ -174,19 +164,12 @@ def get_user_info(user):
 @authorize
 def image_predict(user):
     db_user = db.users.find_one({'_id': ObjectId(user["id"])})
-    print(db_user)
-
     image = request.files['image_give']  # 이미지 파일
-    print(image)
     today = datetime.now()  # 현재 시각
     mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
-
     filename = f'recycle_img-{mytime}'  # 파일명
-
     extension = image.filename.split('.')[-1]  # 확장자 빼기
-
     save_to = f'static/image/{filename}.{extension}' # 저장 장소
-
     file = f'recycle_img-{mytime}.{extension}'
     image.save(save_to)  # 이미지 저장
 
@@ -211,7 +194,7 @@ def get_image(user):
     user_info = db.users.find_one({
         '_id': ObjectId(user["id"])
     })
-    print(user_info)
+
     image = list(db.recycles.find({'userid': user_info["userid"]}, {'_id': False}).sort("date", -1).limit(1))
     uploadimage = image[0]['image']
 
@@ -220,24 +203,28 @@ def get_image(user):
 
 @app.route("/gethowtorecycle", methods=["GET"])
 @authorize
-def get_image(user):
+def get_image_info(user):
     user_info = db.users.find_one({
         '_id': ObjectId(user["id"])
     })
-    print(user_info)
+
     image = list(db.recycles.find({'userid': user_info["userid"]}, {'_id': False}).sort("date", -1).limit(1))
     uploadimage_category = image[0]['category']
     message=[]
     if uploadimage_category=="paper":
+        uploadimage_category = "종이"
         message.append("스티커와 같은 이물질을 제거해주세요")
         message.append("납작하게 접어주세요")
     elif uploadimage_category=="metal":
+        uploadimage_category = "캔"
         message.append("안의 이물질을 제거해주세요")
         message.append("최대한 압축시켜주세요")
     elif uploadimage_category=="plastic":
+        uploadimage_category = "플라스틱"
         message.append("부착 상표 및 뚜껑을 제거해주세요")
         message.append("최대한 압축시켜주세요")
     elif uploadimage_category=="glass":
+        uploadimage_category = "유리"
         message.append("안의 이물질을 제거해주세요")
         message.append("뚜껑을 제거해주세요")
 

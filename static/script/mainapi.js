@@ -42,7 +42,7 @@ function getUserRecycle() {
     })
 };
 
-function getUserRecycle() {
+function getRecycleinfo() {
     $.ajax({
         type: 'GET',
         url: '/gethowtorecycle',
