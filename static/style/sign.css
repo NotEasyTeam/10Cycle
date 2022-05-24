@@ -1,0 +1,137 @@
+body {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    width: 100%; 
+    height: 1100px; 
+    background-image: linear-gradient(to right bottom, #7df9e9, #7df6e0, #7ef3d6, #7fefcc, #82ecc2, #78edb7, #71edab, #6ced9d, #5cf187, #51f46c, #4cf64b, #4ef804);
+    overflow: hidden;
+}
+
+.layer-container {
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    width: 100%; 
+    height: 1100px; 
+    animation: showText 2s; 
+    /* animation: movebg 5s linear infinite; */
+    background-image: linear-gradient(to left top, #7df9e9, #7df6e0, #7ef3d6, #7fefcc, #82ecc2, #78edb7, #71edab, #6ced9d, #5cf187, #51f46c, #4cf64b, #4ef804);
+    /* background-color: #5cf187;
+    background-position: xy;
+    background-size: 100%;
+    background-repeat: repeat-x; */
+}
+
+.signup-container {
+    display: flex; 
+    flex-direction: row; 
+    padding: 10%; 
+    margin-right: 8%;
+}
+
+.signup-form {
+    padding: 20px ;
+    text-align: center; 
+    width: 350px; 
+    height: 550px; 
+    margin-left: 100px; 
+    background-color: white; 
+    border-radius: 30px;
+    opacity: 0.7;
+}
+
+.logo-box {
+    padding-top: 30px;
+    padding-bottom: 40px;
+    margin-left: -10px;
+}
+
+.logo-image {
+    width: 190px; 
+    height:70px
+}
+
+.input-user-data {
+    font-size: 14px;
+    width: 258px;
+}
+
+.btn {
+    width: 258px;
+    background-image: linear-gradient(to left top, #7df9e9, #7df6e0, #7ef3d6, #7fefcc, #82ecc2, #78edb7, #71edab, #6ced9d, #5cf187, #51f46c, #4cf64b, #4ef804);
+    border : none;
+}
+
+.input-info {
+    font-size: 14px;
+}
+
+/*회원가입 입력폼*/
+.mb-3 {
+    margin-left: 24px;
+}
+
+.ask-sign {
+    margin-top: 14px;
+}
+
+.go-to-login {
+    color : green;
+}
+
+.login-input-layer {
+    height: 150px;
+}
+
+.signup-input-layer {
+    height: 280px;
+    margin-top: 10px;
+}
+
+.help-info {
+    font-size: 11px;
+    color: #c74476;
+    text-align: left;
+    margin-left: 5px;
+}
+
+.kakao-login {
+    margin-top: 10px;
+}
+
+.K-login-btn {
+    color: yellowgreen;
+}
+/* 모바일 Device : 0 ~ 400 */
+@media screen and (max-width: 10px) {
+
+    html {
+
+    }
+
+    .signimgLayer {
+        /*padding: 1.0em;*/
+        display: none;
+
+    }
+
+}
+
+@keyframes showText {
+    from {
+        transform: translate(0px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(0px);
+        opacity: 1;
+    }
+}
+
+/* 배경 움직이게하는 애니메이션 */
+@keyframes movebg {
+    0% { background-position: 0 center;}
+    100% { background-position: -2000px center;}
+}

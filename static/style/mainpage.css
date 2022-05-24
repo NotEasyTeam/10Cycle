@@ -1,0 +1,185 @@
+body {
+    background-image: linear-gradient(to right bottom, #7df9e9, #7df6e0, #7ef3d6, #7fefcc, #82ecc2, #78edb7, #71edab, #6ced9d, #5cf187, #51f46c, #4cf64b, #4ef804);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 975px;
+    animation: showText 2s;
+
+}
+
+.header {
+    background-color: white;
+    display: inline-block;
+    width: 100%;
+    height: 7%;
+}
+
+.logo {
+    width: 49%;
+    display: inline-block;
+    margin-left: 1%;
+    margin-top: 0.8%;
+}
+
+.user-info {
+    width: 49%;
+    display: inline-block;
+    float: right;
+    margin-top: 1.2%;
+}
+
+.username, .point, .logout {
+    display: inline-block;
+    float: right;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 3%;
+    margin-right: 3%;
+    height: 10%;
+    background-color: transparent;
+    border-color: transparent;
+    transform: scale(1);
+}
+
+.logout:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: all 0.2s ease-in-out;
+    color: red;
+}
+
+.main-body {
+    display: inline-block;
+    flex-direction: column;
+    width: 100%;
+    height: 975px;
+    justify-content: center;
+}
+
+.load-image-div {
+    display: inline-block;
+    width: 100%;
+    height: 49%;
+    text-align: center;
+    position: relative;
+}
+
+.load-image-div .garbage {
+    position: absolute;
+    top: -9%;
+    left: 36%;
+    transform: scale(0.63);
+}
+
+.load-image-div .load-image {
+    position: absolute;
+    top: 50%;
+    left: 44.3%;
+    font-size: 20px;
+    font-weight: bold;
+    width: 10%;
+    height: 12%;
+    border: 2px black solid;
+    border-radius: 10px;
+    background-image: linear-gradient(to right bottom, #95b4bb, #b2c5cf, #ced7e0, #e8eaf0);
+    transform: scale(0.75);
+}
+
+.load-image:hover {
+    cursor: pointer;
+    background-image: linear-gradient(to left top, #95b4bb, #b2c5cf, #ced7e0, #e8eaf0);
+    transform: scale(0.8);
+    transition: all 0.3s ease-in-out;
+}
+
+.bins {
+    text-align: center;
+}
+
+.paper, .metal, .plastic, .glass {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.paper-bin, .metal-bin, .plastic-bin, .glass-bin {
+    width: 80%;
+    height: 80%;
+    transform: scale(0.7);
+}
+
+.paper-bin:hover {
+    transform: scale(0.75);
+    transition: all 0.5s ease-in-out;
+}
+
+.metal-bin:hover {
+    transform: scale(0.75);
+    transition: all 0.5s ease-in-out;
+}
+
+.plastic-bin:hover {
+    transform: scale(0.75);
+    transition: all 0.5s ease-in-out;
+}
+
+.glass-bin:hover {
+    transform: scale(0.75);
+    transition: all 0.5s ease-in-out;
+}
+
+.footer {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+a:link {
+    color: rgb(100, 130, 130);
+}
+
+a:visited {
+    color: rgb(100, 130, 130);
+}
+
+a:hover {
+    color: rgb(0, 0, 0);
+}
+
+.modal-body{
+    width:478px;
+    height: 502px;
+}
+
+.grid {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(3, 2fr);
+    grid-auto-rows: 150px;
+    border: 3px;
+}
+
+div > div {
+    padding: 5px;
+}
+
+.griditem {
+    border: solid 1px;
+}
+
+.griditem > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.recycle-btn {
+    margin-right: 80px;
+    background-color: grey;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    width: 150px;
+    height: 37px;
+}

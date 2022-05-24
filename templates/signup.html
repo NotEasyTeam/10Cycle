@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!--    CSS---------->
+    <link href="../static/style/sign.css" rel="stylesheet">
+    <!-- JS ------------->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script type="text/javascript" src=../static/script/signapi.js></script>
+
+    <title>10cycle</title>
+</head>
+
+<body>
+    <div class="layer-container">
+        <!-----회원가입 박스----->
+        <div class="signup-container">
+            <!----- 로고 ----->
+            <div class="signup-form">
+                <div class="logo-box">
+                    <!-- <img class="logo-image" src=""> -->
+                    <h2>🌿10CYCLE</h2>
+                </div>
+                <!-- ---- 회원가입 입력폼------>
+                <div class="signup-input-layer">
+                    <div class="form-floating mb-3 field has-addons">
+                        <input type="text" class="form-control input-user-data" id="username" onclick=""
+                            style="height: 40px;" placeholder="name">
+                        <label class="input-info" for="useremail">이름</label>
+                        <p class="help-info" id="help-uname"></p>
+                    </div>
+                    <div class="form-floating mb-3 field has-addons">
+                        <input type="text" class="form-control input-user-data" id="userid" onclick=""
+                            style="height: 40px;" placeholder="id..">
+                        <label class="input-info" for="usernick">아이디</label>
+                        <p class="help-info" id="help-uid"></p>
+                    </div>
+                    <p class="help-id" id="help-id-exist"></p>
+                    <div class="form-floating mb-3" style="border: none;">
+                        <input type="password" class="form-control input-user-data" id="userpw" style="height: 40px;"
+                            placeholder="password...">
+                        <label class="input-info" for="username">비밀번호</label>
+                        <p class="help-info" id="help-upw"></p>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control input-user-data" id="repass"
+                            style="height: 40px;" placeholder="password...">
+                        <label class="input-info" for="repass">비밀번호 재확인</label>
+                        <p class="help-info" id="help-pw-same"></p>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="button" onclick="handleSignup()">
+                    가입
+                </button>
+                <div class="ask-sign"> 계정이 있으신가요? <a class="go-to-login" href="/login.html">로그인</a></div>
+            </div>
+        </div>
+    </div>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

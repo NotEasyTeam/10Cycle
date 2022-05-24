@@ -1,0 +1,310 @@
+body {
+    background-image: linear-gradient(to right bottom, #7df9e9, #7df6e0, #7ef3d6, #7fefcc, #82ecc2, #78edb7, #71edab, #6ced9d, #5cf187, #51f46c, #4cf64b, #4ef804);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 975px;
+    animation: showText 2s;
+    overflow: hidden;
+}
+
+.header {
+    background-color: white;
+    display: inline-block;
+    width: 100%;
+    height: 7%;
+}
+
+.logo {
+    width: 49%;
+    display: inline-block;
+    margin-left: 1%;
+    margin-top: 0.8%;
+}
+
+.user-info {
+    width: 49%;
+    display: inline-block;
+    float: right;
+    margin-top: 1.2%;
+}
+
+.username, .point, .logout {
+    display: inline-block;
+    float: right;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 3%;
+    margin-right: 3%;
+    height: 10%;
+    background-color: transparent;
+    border-color: transparent;
+    transform: scale(1);
+}
+
+.logout:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: all 0.2s ease-in-out;
+    color: red;
+}
+
+.main-body {
+    display: inline-block;
+    flex-direction: column;
+    width: 100%;
+    height: 975px;
+    justify-content: center;
+}
+
+.load-image-div {
+    display: inline-block;
+    width: 100%;
+    height: 49%;
+    text-align: center;
+}
+
+.uploaded {
+    background-color: rgb(250, 250, 250);
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    border-radius: 15px;
+    width: 50%;
+    height: 90%;
+    margin: 0 auto;
+    margin-top: 1%;
+}
+
+.uploaded .uploaded-img {
+    width: 45%;
+    height: 90%;
+    border: 2px solid black;
+}
+
+.result {
+    font-size: 23px;
+    font-weight: bold;
+    text-align: left;
+    margin-left: 3%;
+}
+
+.manual {
+    font-size: 20px;
+}
+
+.result .load-image {
+    margin-top: 20%;
+    font-size: 20px;
+    font-weight: bold;
+    width: 60%;
+    height: 30%;
+    border-radius: 10px;
+    border: 2px black solid;
+    background-image: linear-gradient(to right bottom, #95b4bb, #b2c5cf, #ced7e0, #e8eaf0);
+    transform: scale(0.9);
+}
+
+.load-image:hover {
+    cursor: pointer;
+    background-image: linear-gradient(to left top, #95b4bb, #b2c5cf, #ced7e0, #e8eaf0);
+    transform: scale(1);
+    transition: all 0.3s ease-in-out;
+}
+
+.bins {
+    text-align: center;
+}
+
+.paper, .metal, .plastic, .glass {
+    background-color: transparent;
+    border-color: transparent;
+    padding-top: 0.35%;
+}
+
+.paper-bin, .metal-bin, .plastic-bin, .glass-bin {
+    width: 80%;
+    height: 80%;
+    transform: scale(0.7);
+}
+
+.paper-bin:hover {
+    transform: scale(0.75);
+    transition: all 0.5s ease-in-out;
+}
+
+.metal-bin:hover {
+    transform: scale(0.75);
+    transition: all 0.5s ease-in-out;
+}
+
+.plastic-bin:hover {
+    transform: scale(0.75);
+    transition: all 0.5s ease-in-out;
+}
+
+.glass-bin:hover {
+    transform: scale(0.75);
+    transition: all 0.5s ease-in-out;
+}
+
+.footer {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+a:link {
+    color: rgb(100, 130, 130);
+}
+
+a:visited {
+    color: rgb(100, 130, 130);
+}
+
+a:hover {
+    color: rgb(0, 0, 0);
+}
+
+.modal-body{
+    width:478px;
+    height: 502px;
+}
+
+.grid {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(3, 2fr);
+    grid-auto-rows: 150px;
+    border: 3px;
+}
+
+div > div {
+    padding: 5px;
+}
+
+.griditem {
+    border: solid 1px;
+}
+
+.griditem > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#root {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 800px;
+  }
+
+  .title {
+    text-align: center;
+  }
+
+  .contents {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+  }
+  .contents .upload-box {
+    width: 100%;
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .drag-file {
+    width: 450px;
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
+  }
+  .preview {
+    width: 400px;
+  }
+
+
+  .contents .upload-box  {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 3px dashed #dbdbdb;
+  }
+  .contents .upload-box .drag-file.highlight {
+    border: 3px dashed red;
+  }
+  .contents .upload-box .drag-file .image {
+    width: 40px;
+  }
+  .contents .upload-box .drag-file .message {
+    margin-bottom: 0;
+  }
+  .contents .upload-box .drag-file .preview {
+    display: none;
+    position: absolute;
+    left: 0;
+    height: 355px;
+    width: 432px;
+    margin-top: 75px;
+    margin-left: 9px;
+
+  }
+  .contents .upload-box .file-label {
+    margin-top: 30px;
+    background-color: #5b975b;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    width: 65%;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .contents .upload-box .file {
+    display: none;
+  }
+
+  @media (max-width: 700px) {
+    .contents {
+      display: flex;
+      flex-direction: column;
+      margin-top: 30px;
+    }
+    .contents .upload-box {
+      width: 100%;
+      box-sizing: border-box;
+      margin-right: 0;
+    }
+    .contents .upload-box .drag-file {
+      height: 150px;
+    }
+    .contents .files {
+      width: 100%;
+      box-sizing: border-box;
+      margin-right: 0;
+      overflow: initial;
+    }
+  }
+.recycle-btn {
+    margin-right: 80px;
+    background-color: grey;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    width: 150px;
+    height: 37px;
+}

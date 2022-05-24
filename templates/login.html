@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!--    CSS---------->
+    <link href="../static/style/sign.css" rel="stylesheet">
+    <!-- JS ------------->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script type="text/javascript" src=/static/script/signapi.js></script>
+    
+
+    <title>10cycle</title>
+</head>
+
+<body>
+    <div class="layer-container">
+        <!-----회원가입 박스----->
+        <div class="signup-container">
+            <!----- 로고 ----->
+            <div class="signup-form">
+                <div class="logo-box">
+                    <!-- <img class="logo-image" src=""> -->
+                    <h2>🌿10CYCLE</h2>
+                </div>
+                <!-- ---- 회원가입 입력폼------>
+                <div class="login-input-layer">
+                    <div class="form-floating mb-3 field has-addons" style="margin-top: 50px;">
+                        <input type="text" class="form-control input-user-data" id="userid" onclick=""
+                            style="height: 40px;" placeholder="id..">
+                        <label class="input-info" for="usernick">아이디</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control input-user-data" id="userpw" style="height: 40px;"
+                            placeholder="password...">
+                        <label class="input-info" for="username">비밀번호</label>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="margin-top: 60px;" onclick="handleLogin()">
+                    로그인
+                </button>
+                <div class="kakao-login">
+                    <button style="border: none; background-color: white;" >
+                        <img style="transform: scale(0.84);" src="../static/image/kakao_login_medium_narrow.png" onclick="kakaoLogin();" href="javascript:void(0)">    
+                    </button>
+                </div>
+                
+                <div class="ask-sign"> 계정이 없으신가요? <a class="go-to-login" href="/signup">회원가입</a></div>
+            </div>
+        </div>
+    </div>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
