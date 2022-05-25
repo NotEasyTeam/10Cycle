@@ -1,14 +1,14 @@
-from functools import wraps
-import hashlib
 import json
-from load_model import predict
-from bson import ObjectId
+import hashlib
 import jwt
+from functools import wraps
+from bson import ObjectId
 from datetime import datetime, timedelta
 from flask import Flask, abort, jsonify, redirect, request, render_template, url_for
 from flask_cors import CORS
 from pymongo import MongoClient
 
+from load_model import predict
 
 SECRET_KEY = 'recycle'
 KAKAO_REDIRECT_URI = 'http://localhost:5000/redirect'
@@ -17,7 +17,9 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 cors = CORS(app, resources={r'*': {'origins': '*'}})
 client = MongoClient('localhost', 27017)
 db = client.tencycle
-client_id = 'eb06aead9054aed0b2c737734a97ace8'
+client_id = '' #앱키 암호화 해서 올려야한다.
+
+NUM_LIMIT = 9
 
 
 
@@ -83,19 +85,19 @@ def sign_up():
     password_hash = hashlib.sha256(data['password'].encode('utf-8')).hexdigest()
     user_exists = bool(db.users.find_one({"userid": data.get('userid')}))
 
-    if user_exists == True:
+    if user_exists:
         return jsonify({'result': 'fail', 'msg': '같은 아이디의 유저가 존재합니다.'})
-    else:
-        doc = {
-            'username': data.get('username'),
-            'userid': data.get('userid'),
-            'password': password_hash,
-            'userpoint': '0'
-        }
 
-        db.users.insert_one(doc)
+    doc = {
+        'username': data.get('username'),
+        'userid': data.get('userid'),
+        'password': password_hash,
+        'userpoint': '0'
+    }
 
-        return jsonify({'result': 'success', 'msg': '회원가입이 완료되었습니다.'})
+    db.users.insert_one(doc)
+
+    return jsonify({'result': 'success', 'msg': '회원가입이 완료되었습니다.'})
 
 
 @app.route("/api/login", methods=["POST"])
@@ -121,8 +123,8 @@ def login():
         token = jwt.encode(payload=payload, key=SECRET_KEY, algorithm='HS256')
 
         return jsonify({'result': 'success', 'token': token})
-    else:
-        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+
+    return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
 @app.route("/kakaologin", methods=["POST"])
@@ -143,9 +145,7 @@ def kakao_Login():
 @app.route("/getuserinfo", methods=["GET"])
 @authorize
 def get_user_info(user):
-    result = db.users.find_one({
-        '_id': ObjectId(user["id"])
-    })
+    result = db.users.find_one({'_id': ObjectId(user["id"])})
 
     point = str(len(list(db.recycles.find({'userid': result["userid"]}, {'_id': False}))))
 
@@ -187,7 +187,7 @@ def image_predict(user):
     return jsonify({'msg': '예측 완료!'})
 
 
-@app.route("/getuploadimage", methods=["GET"])
+@app.route("/uploadimage", methods=["GET"])
 @authorize
 def get_image(user):
     user_info = db.users.find_one({
@@ -200,7 +200,7 @@ def get_image(user):
     return jsonify({'img': uploadimage})
 
 
-@app.route("/gethowtorecycle", methods=["GET"])
+@app.route("/howtorecycle", methods=["GET"])
 @authorize
 def get_image_info(user):
     user_info = db.users.find_one({
@@ -230,50 +230,50 @@ def get_image_info(user):
     return jsonify({'category': uploadimage_category, 'how_to_recycle': message})
 
 
-@app.route("/getuserpaper", methods=["GET"])
+@app.route("/userpaper", methods=["GET"])
 @authorize
 def get_user_paper(user):
     result = db.users.find_one({
         '_id': ObjectId(user["id"])
     })
 
-    user_paper = list(db.recycles.find({'userid': result["userid"], 'category': 'paper'}, {'_id': False}).limit(9))
+    user_paper = list(db.recycles.find({'userid': result["userid"], 'category': 'paper'}, {'_id': False}).limit(NUM_LIMIT))
 
     return jsonify({'message': 'success', 'user_paper': user_paper})
 
 
-@app.route("/getusermetal", methods=["GET"])
+@app.route("/usermetal", methods=["GET"])
 @authorize
 def get_user_metal(user):
     result = db.users.find_one({
         '_id': ObjectId(user["id"])
     })
 
-    user_metal = list(db.recycles.find({'userid': result["userid"], 'category': 'metal'}, {'_id': False}).limit(9))
+    user_metal = list(db.recycles.find({'userid': result["userid"], 'category': 'metal'}, {'_id': False}).limit(NUM_LIMIT))
 
     return jsonify({'message': 'success', 'user_metal': user_metal})
 
 
-@app.route("/getuserplastic", methods=["GET"])
+@app.route("/userplastic", methods=["GET"])
 @authorize
 def get_user_plastic(user):
     result = db.users.find_one({
         '_id': ObjectId(user["id"])
     })
 
-    user_plastic = list(db.recycles.find({'userid': result["userid"], 'category': 'plastic'}, {'_id': False}).limit(9))
+    user_plastic = list(db.recycles.find({'userid': result["userid"], 'category': 'plastic'}, {'_id': False}).limit(NUM_LIMIT))
 
     return jsonify({'message': 'success', 'user_plastic': user_plastic})
 
 
-@app.route("/getuserglass", methods=["GET"])
+@app.route("/userglass", methods=["GET"])
 @authorize
 def get_user_glass(user):
     result = db.users.find_one({
         '_id': ObjectId(user["id"])
     })
 
-    user_glass = list(db.recycles.find({'userid': result["userid"], 'category': 'glass'}, {'_id': False}).limit(9))
+    user_glass = list(db.recycles.find({'userid': result["userid"], 'category': 'glass'}, {'_id': False}).limit(NUM_LIMIT))
 
     return jsonify({'message': 'success', 'user_glass': user_glass})
 

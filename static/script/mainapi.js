@@ -27,7 +27,7 @@ function uploadRecycle() {
 function getUserRecycle() {
     $.ajax({
         type: 'GET',
-        url: '/getuploadimage',
+        url: '/uploadimage',
         data: {},
         headers: { 'Authorization': localStorage.getItem("token") }, // 401에러 떴을때, 헤더에 토큰 
         success: function (response) {
@@ -42,7 +42,7 @@ function getUserRecycle() {
 function getRecycleinfo() {
     $.ajax({
         type: 'GET',
-        url: '/gethowtorecycle',
+        url: '/howtorecycle',
         data: {},
         headers: { 'Authorization': localStorage.getItem("token") }, // 401에러 떴을때, 헤더에 토큰
         success: function (response) {
@@ -65,7 +65,7 @@ function getuserpaper() {
     $('#papergrid').empty()
     $.ajax({
         type: 'GET',
-        url: '/getuserpaper',
+        url: '/userpaper',
         data: {},
         headers: { 'Authorization': localStorage.getItem("token") },
         success: function (response) {
@@ -86,7 +86,7 @@ function getusermetal() {
     $('#metalgrid').empty()
     $.ajax({
         type: 'GET',
-        url: '/getusermetal',
+        url: '/usermetal',
         data: {},
         headers: { 'Authorization': localStorage.getItem("token") },
         success: function (response) {
@@ -106,7 +106,7 @@ function getuserplastic() {
     $('#plasticgrid').empty()
     $.ajax({
         type: 'GET',
-        url: '/getuserplastic',
+        url: '/userplastic',
         data: {},
         headers: { 'Authorization': localStorage.getItem("token") },
         success: function (response) {
@@ -126,7 +126,7 @@ function getuserglass() {
     $('#glassgrid').empty()
     $.ajax({
         type: 'GET',
-        url: '/getuserglass',
+        url: '/userglass',
         data: {},
         headers: { 'Authorization': localStorage.getItem("token") },
         success: function (response) {

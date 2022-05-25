@@ -23,14 +23,25 @@ def predict(image_file):
 
   yhat = model.predict(image_arr)
   answer=yhat.argmax() # 가장 큰 값을 정답값으로 생각하자!!!
-  if answer==0:
-    return "glass"
-  elif answer==1:
-    return "metal"
-  elif answer==2:
-    return "paper"
-  elif answer==3:
-    return "plastic"
+
+  result = {
+    0: "glass",
+    1: "metal",
+    2: "paper",
+    3: "plastic"
+  }
+
+  return result.get(answer)
+
+  #코드 피드백 받기전 코드
+  # if answer==0:
+  #   return "glass"
+  # elif answer==1:
+  #   return "metal"
+  # elif answer==2:
+  #   return "paper"
+  # elif answer==3:
+  #   return "plastic"
 
 # pred = predict('image/hwarang.jpeg')
 # print(pred)
