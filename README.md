@@ -30,6 +30,6 @@
 #### 📕 <a href="https://docs.google.com/spreadsheets/d/1u2awAMkEIl7eGeQn5O7iANxGBe3wZ578TkSjS4y5MwY/edit?usp=sharing">API 및 DB 설계</a>
 <br><br><br>
 
-## 📢 <a href="https://youtube.com/">발표 영상</a>
+## 📢 <a href="https://www.youtube.com/watch?v=wuD_pY7AQeo&amp;t=3s">발표 영상</a>
 
 
