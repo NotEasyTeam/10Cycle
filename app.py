@@ -127,19 +127,19 @@ def login():
     return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
-@app.route("/kakaologin", methods=["POST"])
-def kakao_Login():
-    data = json.loads(request.data)
-
-    doc = {
-        'username': data.get('username'),
-        'userid': data.get('userid'),
-        'userpoint': '0'
-    }
-
-    db.users.update_one({"userid": data.get('userid')}, {"$set": doc}, upsert=True)
-
-    return jsonify({'result': 'success', 'msg': '회원가입이 완료되었습니다.'})
+# @app.route("/kakaologin", methods=["POST"])
+# def kakao_Login():
+#     data = json.loads(request.data)
+#
+#     doc = {
+#         'username': data.get('username'),
+#         'userid': data.get('userid'),
+#         'userpoint': '0'
+#     }
+#
+#     db.users.update_one({"userid": data.get('userid')}, {"$set": doc}, upsert=True)
+#
+#     return jsonify({'result': 'success', 'msg': '회원가입이 완료되었습니다.'})
 
 
 @app.route("/getuserinfo", methods=["GET"])
@@ -209,25 +209,40 @@ def get_image_info(user):
 
     image = list(db.recycles.find({'userid': user_info["userid"]}, {'_id': False}).sort("date", -1).limit(1))
     uploadimage_category = image[0]['category']
-    message=[]
-    if uploadimage_category=="paper":
-        uploadimage_category = "종이"
-        message.append("스티커와 같은 이물질을 제거해주세요")
-        message.append("납작하게 접어주세요")
-    elif uploadimage_category=="metal":
-        uploadimage_category = "캔"
-        message.append("안의 이물질을 제거해주세요")
-        message.append("최대한 압축시켜주세요")
-    elif uploadimage_category=="plastic":
-        uploadimage_category = "플라스틱"
-        message.append("부착 상표 및 뚜껑을 제거해주세요")
-        message.append("최대한 압축시켜주세요")
-    elif uploadimage_category=="glass":
-        uploadimage_category = "유리"
-        message.append("안의 이물질을 제거해주세요")
-        message.append("뚜껑을 제거해주세요")
+    result = {
+        "paper": ["종이", "스티커와 같은 이물질을 제거해주세요", "납작하게 접어주세요"],
+        "metal": ["캔", "안의 이물질을 제거해주세요", "최대한 압축시켜주세요"],
+        "plastic": ["플라스틱", "부착 상표 및 뚜껑을 제거해주세요", "최대한 압축시켜주세요"],
+        "glass": ["유리", "안의 이물질을 제거해주세요", "뚜껑을 제거해주세요"]
+    }
 
-    return jsonify({'category': uploadimage_category, 'how_to_recycle': message})
+    category = result.get(uploadimage_category)[0]
+    message = result.get(uploadimage_category)[1:]
+
+    return jsonify({'category': category, 'how_to_recycle': message})
+
+
+    # 코드 리펙토링 전 코드
+
+    # message=[]
+    # if uploadimage_category=="paper":
+    #     uploadimage_category = "종이"
+    #     message.append("스티커와 같은 이물질을 제거해주세요")
+    #     message.append("납작하게 접어주세요")
+    # elif uploadimage_category=="metal":
+    #     uploadimage_category = "캔"
+    #     message.append("안의 이물질을 제거해주세요")
+    #     message.append("최대한 압축시켜주세요")
+    # elif uploadimage_category=="plastic":
+    #     uploadimage_category = "플라스틱"
+    #     message.append("부착 상표 및 뚜껑을 제거해주세요")
+    #     message.append("최대한 압축시켜주세요")
+    # elif uploadimage_category=="glass":
+    #     uploadimage_category = "유리"
+    #     message.append("안의 이물질을 제거해주세요")
+    #     message.append("뚜껑을 제거해주세요")
+    #
+    # return jsonify({'category': uploadimage_category, 'how_to_recycle': message})
 
 
 @app.route("/userpaper", methods=["GET"])

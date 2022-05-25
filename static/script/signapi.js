@@ -93,10 +93,9 @@ async function handleSignup() {
         return;
     }
 }
-// Kakao.init('ff16324da325a78de3968519e1701949'); //발급받은 키 중 javascript키를 사용해준다.
+// Kakao.init(''); //발급받은 키 중 javascript키를 사용해준다.
 
 //카카오 로그인 함수
-// window.Kakao.init('ff16324da325a78de3968519e1701949');
 // // console.log(Kakao.isInitialized()); // sdk초기화여부판단
 
 // function kakaoLogin() {
